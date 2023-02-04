@@ -225,6 +225,7 @@ function App() {
           type={"text"}
           placeholder="City"
           value={address}
+          onFocus={() => setShow(false)}
           onChange={(e) => {
             setAddress(e.target.value);
             setShow(false);
