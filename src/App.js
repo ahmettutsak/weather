@@ -232,7 +232,7 @@ function App() {
           }}
           className={"p-4 border rounded xl:w-[800px]"}
         />
-        {current && (
+        {current && show && (
           <div className="flex flex-col xl:flex-row p-4 justify-around w-full items-center text-white absolute bottom-8">
             <div className="flex items-center">
               <h2 className="font-bold text-5xl xl:text-8xl text-white">
