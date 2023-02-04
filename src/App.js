@@ -1,6 +1,9 @@
 import "./App.css";
 import axios from "axios";
 import React from "react";
+import GetWeather from "./components/GetWeather";
+import Header from "./components/Header";
+import ShowWeather from "./components/ShowWeather";
 
 function App() {
   const [state, setState] = React.useState();
@@ -37,28 +40,6 @@ function App() {
         setAddress("");
       });
     setShow(true);
-  };
-
-  const weatherGet = () => {
-    return state.map((weather, index) => {
-      return (
-        <li
-          className="border p-4 text-center cursor-pointer"
-          onClick={() => {
-            if (weather.address.town) {
-              getWeather(weather.lon, weather.lat, weather.address.town);
-            } else if (weather.address.province) {
-              getWeather(weather.lon, weather.lat, weather.address.province);
-            } else {
-              getWeather(weather.lon, weather.lat, weather.address.country);
-            }
-          }}
-          key={index}
-        >
-          {weather.display_name}
-        </li>
-      );
-    });
   };
 
   React.useEffect(() => {
@@ -165,49 +146,6 @@ function App() {
     }
   }, [current]);
 
-  const showTimes = () => {
-    const times = timeS.map(({ time, temperature_2m }, index) => {
-      const returntime = time.map((rtTime, index) => {
-        const dates = rtTime.split("-");
-        const hours = dates[2].split("T");
-        const date = `${hours[0]}.${dates[1]}.${dates[0]}`;
-        const day = new Date(`${dates[0]}-${dates[1]}-${hours[0]}`);
-        const daytime = day.toLocaleString("en-US", { weekday: "long" });
-        return (
-          <li
-            className="p-6 list-none rounded bg-opacity-40 bg-white"
-            key={index}
-          >
-            <h2 className="font-bold text-2xl">{daytime}</h2>
-            <h2 className="">{date}</h2>
-            <h2 className="">{hours[1]}</h2>
-            <h2 className="font-bold text-xl">{temperature_2m[index]}°C</h2>
-          </li>
-        );
-      });
-      return returntime;
-    });
-
-    return (
-      <div className="flex flex-col overflow-auto w-72 xl:w-[562px]">
-        <div className="flex xl:p-4 text-center gap-2">{times}</div>
-      </div>
-    );
-  };
-
-  const currentData = () => {
-    const dates = current.time.split("-");
-    const hours = dates[2].split("T");
-    const date = `${hours[0]}.${dates[1]}.${dates[0]}`;
-    const day = new Date(`${dates[0]}-${dates[1]}-${hours[0]}`);
-    const daytime = day.toLocaleString("en-US", { weekday: "long" });
-    const hourCo = new Date();
-    var currentHour = hourCo.getHours() + ":" + hourCo.getMinutes();
-    return (
-      <h2 className="p-1 xl:text-xl">{`${currentHour} - ${daytime}, ${date}`}</h2>
-    );
-  };
-
   return (
     <div
       className={`flex overflow-hidden flex-col bg-cover bg-center h-screen`}
@@ -216,11 +154,7 @@ function App() {
       }}
     >
       <div className="flex justify-center items-center mt-6 flex-col">
-        <div className="flex w-full justify-evenly items-center">
-          <h2 className="font-bold xl:text-7xl text-4xl mt-24 mb-12 text-white">
-            GetWeather
-          </h2>
-        </div>
+        <Header />
         <input
           type={"text"}
           placeholder="City"
@@ -233,24 +167,13 @@ function App() {
           className={"p-4 border rounded xl:w-[800px]"}
         />
         {current && show && (
-          <div className="flex flex-col xl:flex-row p-4 justify-around w-full items-center text-white absolute bottom-8">
-            <div className="flex items-center">
-              <h2 className="font-bold text-5xl xl:text-8xl text-white">
-                {current.temperature}°
-              </h2>
-              <div className="xl:p-8 p-6">
-                <h2 className="font-bold xl:text-4xl text-white">
-                  {stateName}
-                </h2>
-                <div>{currentData()}</div>
-              </div>
-              <img src={svgIcon} width={75} height={75} alt="svg" />
-            </div>
-            <div>
-              <h2 className="xl:text-2xl text-white">Weekly ---&gt;</h2>
-              <div className="text-black">{show && showTimes()}</div>
-            </div>
-          </div>
+          <ShowWeather
+            show={show}
+            svgIcon={svgIcon}
+            current={current}
+            stateName={stateName}
+            timeS={timeS}
+          />
         )}
       </div>
       <div className="h-full flex justify-center">
@@ -259,7 +182,9 @@ function App() {
             address.length > 0 ? "" : "hidden"
           } overflow-auto bg-white`}
         >
-          {address.length > 0 && !show && weatherGet()}
+          {address.length > 0 && !show && (
+            <GetWeather getWeather={getWeather} state={state} />
+          )}
         </ul>
       </div>
     </div>
