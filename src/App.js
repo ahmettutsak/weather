@@ -215,7 +215,7 @@ function App() {
         backgroundImage: `url(${background})`,
       }}
     >
-      <div className="flex justify-center items-center mt-24 flex-col">
+      <div className="flex justify-center items-center mt-6 flex-col">
         <div className="flex w-full justify-evenly items-center">
           <h2 className="font-bold xl:text-7xl text-4xl mt-24 mb-12 text-white">
             GetWeather
@@ -238,7 +238,6 @@ function App() {
               <h2 className="font-bold text-5xl xl:text-8xl text-white">
                 {current.temperature}°
               </h2>
-
               <div className="xl:p-8 p-6">
                 <h2 className="font-bold xl:text-4xl text-white">
                   {stateName}
@@ -248,7 +247,7 @@ function App() {
               <img src={svgIcon} width={75} height={75} alt="svg" />
             </div>
             <div>
-              <h2 className="xl:text-2xl text-white">Weekly ---></h2>
+              <h2 className="xl:text-2xl text-white">Weekly ---&gt;</h2>
               <div className="text-black">{show && showTimes()}</div>
             </div>
           </div>
