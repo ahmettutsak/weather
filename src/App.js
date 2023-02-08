@@ -187,11 +187,6 @@ function App() {
           )}
         </ul>
       </div>
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6667764258142719"
-        crossorigin="anonymous"
-      ></script>
     </div>
   );
 }
